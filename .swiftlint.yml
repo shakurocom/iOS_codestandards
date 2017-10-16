@@ -1,0 +1,17 @@
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+# - Frameworks/SwiftyReceiptValidator
+- Carthage
+- Pods
+
+line_length:
+    warning: 2000
+    error: 2500
+
+identifier_name:
+    max_length: 150
+
+type_name:
+    max_length: 150
+
+warning_threshold: 15
+
