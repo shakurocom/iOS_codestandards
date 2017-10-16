@@ -32,3 +32,4 @@ fi
 #### Tutorials Links
 
 * **1** https://habrahabr.ru/company/tinkoff/blog/317892/
+* **2** https://medium.com/xcblog/top-5-tips-for-integrating-swiftlint-into-ios-ci-cd-pipelines-1f4fe1d343b3
