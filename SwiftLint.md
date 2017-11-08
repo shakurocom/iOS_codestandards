@@ -21,6 +21,7 @@ fi
 // swiftlint:enable <rule1> [<rule2> <rule3>...]
 ```
 * **6** File .swiftlint.yml can be placed in subfolders to add custom configuration.
+* **7** Setup Xcode: go to `Preferences -> Text Editing -> While Editing` and check `Automatically trim trailing whitespaces` and `Including whitespace-only lines`.
 
 #### Terminal Commands
 
