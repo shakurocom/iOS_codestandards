@@ -147,4 +147,4 @@ platform :ios do
 end
 ```
 
-12. This is not the end.
+12. This is not the end. //TODO: continue with bitrise
