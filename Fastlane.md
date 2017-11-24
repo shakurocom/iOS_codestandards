@@ -55,6 +55,38 @@ end
 
 
 
+## Integrating with bitrise
+This tutorial assume, that you already have iOS project and all app IDs and provisions and such stuff on iTunesConnect and on developer.apple.com. Also, because we would use fastlane as a part of bitrise workflow, we will try to move as much as possible out of fastlane into bitrise workflow steps.
 
+//TODO: compile usefull links
 
+Usefull links:
+* tutorial for fastlane, contains info how to install fastlane itself: https://www.raywenderlich.com/136168/fastlane-tutorial-getting-started-2
+* all actions, available for fastlane: https://docs.fastlane.tools/actions
+* move info on configuration file: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
 
+Steps:
+
+1. Open your terminal.
+
+2. Navigate to project's directory:
+```
+cd <your project directory>
+```
+
+3. Initialize fastlane configuration for your project:
+```
+fastlane init
+```
+
+4. Fastlane will ask for your apple ID & password to verify that proper app exists on itunesconnect with proper app id.
+
+5. If you are a member of several teams on developer.apple.com, it will ask you to specify your team.
+
+6. If you are a member of several teams on iTunesConnect, it will ask you to specify your team. (twice)
+
+7. After that fastlane should report all found settings and issues. After that it will create `./fastlane` directory. It will contain all settings needed for running lanes.
+
+8. Go to `./fastlane/Appfile`. Check, that it contains correct information: `app_identifier`, `apple_id`, `team_id`. More information can be found here (https://docs.fastlane.tools/advanced/#appfile)
+
+9. Go to `./fastlane/Fastfile`. 
