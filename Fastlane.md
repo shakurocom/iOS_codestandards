@@ -206,3 +206,43 @@ sudo bundle update
 19. Make sure you uploaded proper provision profiles and certificates to "Code signing" tab of the workflow editor. Before running a tool , that is mentioned on that page, make sure you at least once uploaded a build to testflight menually.
 
 20. Mission completed. Schedule created workflow as you like/need. 
+
+## Usefull scripts
+
+### Collect commit messages -> Jira tickets
+
+For this script branches have prefix equal to jira tickets (ex "MET-66"). Script will sxport message into Bitrise Environment variable "WHATS_NEW_MESSAGE"
+```
+#!/usr/bin/env bash
+
+# fail if any commands fails
+set -e
+#debug log
+set -x
+
+# get previous tag
+PREVIOUS_TAG=$( git describe --abbrev=0 --match "*metro*" )
+
+# get commit messages from previous tag and extract only uniqu task identifiers from them
+# this will leave something like this:
+# MET-1
+# MET-3
+# MET-89
+TASK_IDS=$( git log --pretty=oneline "$PREVIOUS_TAG"..."$BITRISE_GIT_BRANCH" | sed 's/m/M/g' | sed 's/e/E/g' | sed 's/t/T/g' | grep -E '.*(MET-[0-9]+).*' | sed -E 's/.*(MET-[0-9]+).*/\1/' | sort | uniq )
+
+# check, that there are new feature-branches merged
+if [ $TASK_IDS -ge 4 ]
+then
+    echo "Found no new merges. Exiting..."
+    exit 1
+fi
+
+# transform task ids into Jira links
+MESSAGE=$( echo "$TASK_IDS" | sed 's|\(.*\)|http://j.shakuro.com/browse/\1  (\1)|' )
+
+echo "Processed changelog:"
+echo "$MESSAGE"
+
+# export message as a global variable into Bitrise environment
+envman add --key WHATS_NEW_MESSAGE --value "$MESSAGE"
+```
