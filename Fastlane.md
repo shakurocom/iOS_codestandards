@@ -100,6 +100,8 @@ More information can be found here (https://docs.fastlane.tools/advanced/#appfil
 
 10. Configure your lane.
 
+11. Make sure, that you specified provision profiles in "gym" action (see example below).
+
 11. Example of Fastfile:
 ```
 fastlane_version "2.66.2"
@@ -108,42 +110,43 @@ default_platform :ios
 
 platform :ios do
 
-  before_all do
-    # this block is called before each lane
-  end
-  
-  # this is a description, that will be displayed in the output before starting this lane
-  desc "Submit a new Beta Build to Apple TestFlight"
-  lane :beta do
-    
-    # Add a badge to app icon. This will actually overwrite images, so be careful.
-    # More info: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge
-    badge(
-      alpha: true,
-      shield: "#{get_version_number}-#{get_build_number}-grey"
-    )
-    
-    # build app
-    gym(scheme: "ExampleSchemeName") # Build your app - more options available
-    
-    # Upload build to testflight & set field "what's new"
-    pilot(
-      changelog: changelog_from_git_commits(pretty: '%h %s')
-    )
-    
-  end
+    before_all do
+    end
 
-  after_all do |lane|
-    # This block is called, only if the executed lane was successful
-  end
+    desc "Submit a new Beta Build to Apple TestFlight"
+    lane :beta do
 
-  error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
-  end
+        # Add a badge to app icon. This will actually overwrite images, so be careful.
+        # More info: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge
+        add_badge(
+            alpha: true,
+            shield: "v#{ENV['XPI_VERSION']}-#{ENV['XPI_BUILD']}-grey"
+        )
 
+        #build app
+        gym(
+            export_method: "app-store",
+            export_options: {
+                provisioningProfiles: {
+                    "net.metrosystems.metroapp" => "METRO AppStore",
+                }
+            },
+        scheme: "Metro")
+
+        # Upload build to testflight & set field "what's new"
+        pilot(
+            changelog: ENV['WHATS_NEW_MESSAGE']
+        )
+
+    end
+
+    after_all do |lane|
+        # This block is called, only if the executed lane was successful
+    end
+
+    error do |lane, exception|
+    end
+    
 end
 ```
 
@@ -199,4 +202,6 @@ sudo bundle update
 
 18. Go to "Secrets" tab of workflow editor. Add `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` and `FASTLANE_PASSWORD` variables. Their value should a password of the apple account, that you specified inside Appfile as `apple_id`.
 
-19. Mission completed. Schedule created workflow as you like/need. 
+19. Make sure you uploaded proper provision profiles and certificates to "Code signing" tab of the workflow editor. Before running a tool , that is mentioned on that page, make sure you at least once uploaded a build to testflight menually.
+
+20. Mission completed. Schedule created workflow as you like/need. 
