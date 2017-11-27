@@ -64,7 +64,7 @@ Usefull links:
 * tutorial for fastlane, contains info how to install fastlane itself: https://www.raywenderlich.com/136168/fastlane-tutorial-getting-started-2
 * all actions, available for fastlane: https://docs.fastlane.tools/actions
 * move info on configuration file: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
-* fastlane plugin to add marks on app icon: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge
+* fastlane plugin to add marks on app icon: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge & http://shields.io/
 
 Steps:
 
@@ -147,4 +147,34 @@ platform :ios do
 end
 ```
 
-12. This is not the end. //TODO: continue with bitrise
+12. `Deliverfile` is used by `deliver` tool of the fastlane. It is for uploading to AppStore. As we will upload only to Testflight this file is irrelevant.
+
+13. Push new files to git.
+
+14. Open your Bitrise workflow. Setup it as follows:
+
+      1. `Activate SSH key (RSA private key)` - to use your credentials to access git
+   
+      2. `Git Clone Repository` - to pull a branch
+      
+      4. `Certificate and profile installer` - crucial step to needed to use provision profiles. See "Code Signing" tab of the worklow editor screen on Bitrise. You need to upload AppStore and development provision profiles, development and distribution certificates
+   
+      5. `Run CocoaPods install` - if your project uses CocoaPods AND you do not commit pod files into your repository, then this step is necessary. It will run `pod intall` and update pods
+   
+      6. `Brew install` - if your project swiftlint to check formatting of the code, than you need to add this step. Specify `swiftlint` as "Name of the formula to install/upgrade" and `yes` as "Upgrade formula if previously installed".
+   
+      7. `Set Xcode Project Build Number` - to increment build number inside `Info.plist`. Nice solution is to set "Build Number" field to `$BITRISE_BUILD_NUMBER`. This will sync build numbers in testflight with ones on bitrise.
+   
+      8. `Xcode Project Info` - to extract version and build number from "Info.plist" into environment variables.
+   
+      9. `Xcode Test for iOS` - to ensure that unit tests are passing for a new build.
+   
+      10. `fastlane` - run the fastlane. Specify lane that should be run, that you setted up in `Fastfile`. In example above - it is `beta`. Check "Working directory" parameter - make sure it is correct.
+   
+      11. //TODO: add a script to push a change of the build number back into git
+   
+      12. `Git tag` - to add a tag to current branch about new release, that was made. "Tag to set on current commit" is a tag string itself. For our example it would be `exampleapp-testflight-$XPI_VERSION-$XPI_BUILD`
+
+15. Go to "Secrets" tab of workflow editor. Add `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` and `FASTLANE_PASSWORD` variables. Their value should a password of the apple account, that you specified inside Appfile as `apple_id`.
+
+16. 
