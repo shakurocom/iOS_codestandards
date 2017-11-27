@@ -1,6 +1,5 @@
 #### Installation
 
-https://www.raywenderlich.com/136168/fastlane-tutorial-getting-started-2
 https://docs.fastlane.tools/getting-started/ios/setup/
 https://github.com/fastlane/examples
 https://docs.fastlane.tools/actions/pilot/
@@ -9,9 +8,6 @@ http://devcenter.bitrise.io/tutorials/community-created/
 // git changes (changelog_from_git_commits)
 https://medium.com/@hesam.kamalan/how-to-send-commit-changes-by-email-once-ci-build-passes-dee13c67c195
 https://github.com/fastlane/fastlane/issues/9687
-
-//Expose an Environment Variable and use it in another Step:
-http://devcenter.bitrise.io/tips-and-tricks/expose-environment-variable/
 
 https://github.com/fastlane/fastlane/tree/master/spaceship#2-step-verification // 2 step verification
 
@@ -56,6 +52,7 @@ end
 
 
 ## Integrating with bitrise
+
 This tutorial assume, that you already have iOS project and all app IDs and provisions and such stuff on iTunesConnect and on developer.apple.com. Also, because we would use fastlane as a part of Bitrise workflow, we will try to move as much as possible out of fastlane into Bitrise workflow steps.
 
 //TODO: compile usefull links
@@ -63,10 +60,12 @@ This tutorial assume, that you already have iOS project and all app IDs and prov
 Usefull links:
 * tutorial for fastlane, contains info how to install fastlane itself: https://www.raywenderlich.com/136168/fastlane-tutorial-getting-started-2
 * all actions, available for fastlane: https://docs.fastlane.tools/actions
+* iOS signing for fastlane: https://docs.fastlane.tools/codesigning/xcode-project/
 * move info on configuration file: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
 * fastlane plugin to add marks on app icon: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge & http://shields.io/
+* Expose an Environment Variable and use it in another Step: http://devcenter.bitrise.io/tips-and-tricks/expose-environment-variable/
 
-Steps:
+### Steps:
 
 1. Open your terminal.
 
@@ -101,6 +100,8 @@ More information can be found here (https://docs.fastlane.tools/advanced/#appfil
 10. Configure your lane.
 
 11. Make sure, that you specified provision profiles in "gym" action (see example below).
+
+12. You can use environment variables using `ENV['VAR_NAME']` (see example below).
 
 11. Example of Fastfile:
 ```
