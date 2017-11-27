@@ -149,9 +149,27 @@ end
 
 12. `Deliverfile` is used by `deliver` tool of the fastlane. It is for uploading to AppStore. As we will upload only to Testflight this file is irrelevant.
 
-13. Push new files to git.
+13. If you are using any plugins with fastlane, you need to use it via gem. Firstly  we need to install it.
+```
+sudo gem install bundler
+```
 
-14. Open your Bitrise workflow. Setup it as follows:
+14. Create `Gemfile` inside your project directory with such contents. In the example below we are adding a plugin "badge". More info on using gem: https://docs.fastlane.tools/getting-started/ios/setup/#use-a-gemfile . More info on using plugins: https://docs.fastlane.tools/plugins/create-plugin/ .
+```
+source "https://rubygems.org"
+
+gem "fastlane"
+gem "fastlane-plugin-badge", git: "https://github.com/HazAT/fastlane-plugin-badge"
+```
+
+15. Update/install gems:
+```
+sudo bundle update
+```
+
+16. Push new files to git.
+
+17. Open your Bitrise workflow. Setup it as follows:
 
       1. `Activate SSH key (RSA private key)` - to use your credentials to access git
    
@@ -171,10 +189,14 @@ end
    
       10. `fastlane` - run the fastlane. Specify lane that should be run, that you setted up in `Fastfile`. In example above - it is `beta`. Check "Working directory" parameter - make sure it is correct.
    
-      11. //TODO: add a script to push a change of the build number back into git
+      11. `Script 'push build number changes'` - a script to push a change of the build number back into git:
+      ```
+      git commit ./MetroApp/Metro/**/Info.plist -m "[version update] [ci skip]"
+      git push origin "$BITRISE_GIT_BRANCH"
+      ```
    
       12. `Git tag` - to add a tag to current branch about new release, that was made. "Tag to set on current commit" is a tag string itself. For our example it would be `exampleapp-testflight-$XPI_VERSION-$XPI_BUILD`
 
-15. Go to "Secrets" tab of workflow editor. Add `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` and `FASTLANE_PASSWORD` variables. Their value should a password of the apple account, that you specified inside Appfile as `apple_id`.
+18. Go to "Secrets" tab of workflow editor. Add `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` and `FASTLANE_PASSWORD` variables. Their value should a password of the apple account, that you specified inside Appfile as `apple_id`.
 
-16. 
+19. Mission completed. Schedule created workflow as you like/need. 
