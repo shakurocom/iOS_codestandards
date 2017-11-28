@@ -64,6 +64,7 @@ Usefull links:
 * move info on configuration file: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
 * fastlane plugin to add marks on app icon: https://github.com/HazAT/fastlane-plugin-badge & https://github.com/HazAT/badge & http://shields.io/
 * Expose an Environment Variable and use it in another Step: http://devcenter.bitrise.io/tips-and-tricks/expose-environment-variable/
+* Abort build gracefully: https://discuss.bitrise.io/t/how-to-programmatically-abort-instead-of-fail-a-build/1791/2
 
 ### Steps:
 
