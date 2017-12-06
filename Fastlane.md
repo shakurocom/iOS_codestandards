@@ -68,7 +68,7 @@ Usefull links:
 
 ### Steps:
 
-1. Open your terminal.
+1. Open your terminal. And install fastlane: https://docs.fastlane.tools/getting-started/ios/setup/
 
 2. Navigate to project's directory:
 ```
