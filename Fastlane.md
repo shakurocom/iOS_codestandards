@@ -130,10 +130,10 @@ platform :ios do
             export_method: "app-store",
             export_options: {
                 provisioningProfiles: {
-                    "net.metrosystems.metroapp" => "METRO AppStore",
+                    "app.bundle.id" => "Your Provision Profile Name",
                 }
             },
-        scheme: "Metro")
+        scheme: "YourSchemeName")
 
         # Upload build to testflight & set field "what's new"
         pilot(
