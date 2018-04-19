@@ -1,4 +1,5 @@
-#### Script to show `TODO` and `FIXME` marks. To install it add to Xcode new Run Script phase: `Build Phases` -> `Run Scripts`.
+### TODO Script
+Script to show `TODO` and `FIXME` marks. To install it add to Xcode new Run Script phase: `Build Phases` -> `Run Scripts`.
 ```
 TAGS="TODO:|FIXME:"
 echo "searching ${SRCROOT} for ${TAGS}"
