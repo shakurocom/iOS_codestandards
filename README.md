@@ -948,6 +948,7 @@ let maximumWidth: CGFloat = 106.5
 let message: String = "Click the button"
 let currentBounds: CGRect = computeViewBounds()
 let names = [String]()
+```
 
 #### Type Annotation for Empty Arrays and Dictionaries
 
