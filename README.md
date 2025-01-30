@@ -814,13 +814,13 @@ someFunctionWithManyArguments(
 
 #### Closure Expressions
 
-Use trailing closure syntax only if there's a single closure expression parameter at the end of the argument list. Give the closure parameters descriptive names.
+Use of trailing closure syntax is not allowed.
 
 **Preferred:**
 ```swift
-UIView.animate(withDuration: 1.0) {
+UIView.animate(withDuration: 1.0, animations: {
   self.myView.alpha = 0
-}
+})
 
 UIView.animate(withDuration: 1.0, animations: {
   self.myView.alpha = 0
@@ -831,9 +831,9 @@ UIView.animate(withDuration: 1.0, animations: {
 
 **Not Preferred:**
 ```swift
-UIView.animate(withDuration: 1.0, animations: {
+UIView.animate(withDuration: 1.0) {
   self.myView.alpha = 0
-})
+}
 
 UIView.animate(withDuration: 1.0, animations: {
   self.myView.alpha = 0
